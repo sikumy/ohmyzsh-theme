@@ -1,6 +1,6 @@
 # Oh My Pentest Report Zsh Theme
 
-`ohmy-pentest-report.zsh-theme` is a customizable Oh My Zsh theme specifically designed for pentesters, offering a clean and efficient prompt to streamline daily tasks during audits and penetration testing. The theme includes real-time display of the date, time, IP address, current directory, and the result of the last executed command. The inclusion of date and time is particularly useful for reporting, allowing pentesters to clearly track when tests were executed, making it easier to document results. Additionally, the theme provides flexibility for manual or automatic IP configuration, custom symbols, and other features tailored to enhance a pentester's workflow.
+`ohmy-pentest-report.zsh-theme` is a customizable Oh My Zsh theme specifically designed for pentesters, offering a clean and efficient prompt to streamline daily tasks during audits and penetration testing. The theme includes real-time display of the date, time, IP address, current directory, and the result of the last executed command. The inclusion of date and time is particularly useful for reporting, allowing pentesters to clearly track when tests were executed, making it easier to document results. Additionally, the theme provides flexibility for manual or automatic IP configuration, custom symbols, custom command history logging, and other features tailored to enhance a pentester's workflow.
 
 ## Features
 
@@ -13,6 +13,11 @@
   - A red `❯` symbol shows when the previous command failed.
   - If the user is `root`, the prompt shows `#` in red.
 - **Current Directory**: The prompt shows the current working directory within brackets in red and white.
+- **Two-Line Prompt Option**: Customize the prompt to use a two-line format by editing the theme file, allowing the command input to appear on a new line.
+- **Custom Command History Logging**:
+    - All executed commands are logged to `~/.pentest_history` in the format `DATE - IP - COMMAND`.
+    - Logging occurs regardless of whether the date and IP are displayed in the prompt.
+    - Empty commands (e.g., pressing Enter on an empty line) or aborted commands (e.g., pressing `Ctrl+C`) are not logged.
 - **Customizable Interface**: Easily switch between displaying an IP from an interface, a manually set IP address, or the public IP.
 
 ## Oh My Zsh Installation
@@ -110,9 +115,41 @@ Disable IP and Date/Time in Prompt:
 disableall
 ```
 
-### Additional Customization
+## Custom Command History Logging
 
-   You can further customize the prompt by editing the theme file and modifying variables such as the date format, symbol styles, and colors.
+All executed commands are logged to `~/.pentest_history` in the format `DATE - IP - COMMAND`, regardless of whether the date and IP are displayed in the prompt. This feature is particularly useful for reporting and keeping track of activities during a penetration test.
+
+- Logging Details:
+  - The history file is automatically created in your home directory.
+  - Empty commands (e.g., pressing Enter on an empty line) or aborted commands (e.g., pressing `Ctrl+C`) are not logged.
+  - The IP logged is based on your current configuration (manual IP, interface IP, or public IP).
+- Example Entry:
+```
+28/10/23 16:38 - 192.168.1.100 - nmap -sV target.com
+```
+
+## Customizing the Prompt to Two Lines
+
+The theme allows you to switch to a two-line prompt format, where the command input appears on a new line below the prompt information.
+
+- Enable Two-Line Prompt:
+    - Edit the theme file `ohmy-pentest-report.zsh-theme` and set the `twolines` variable to `true`:
+```
+# Control to use a two-line prompt (disabled by default)
+twolines=true  # Set to true to enable two-line prompt
+```
+**Note**: There are no commands provided to toggle this setting. You need to edit the theme file manually to change it.
+
+- Disable Two-Line Prompt:
+    - Set the `twolines` variable back to `false`.
+
+## Additional Customization
+
+You can further customize the prompt by editing the theme file and modifying variables such as the date format, symbol styles, and colors.
+- **Date Format**: Modify the `date` command in the `get_datetime` function to change how the date and time are displayed.
+- **Prompt Symbols**: Customize `cmd_symbol_success`, `cmd_symbol_fail`, and `cmd_symbol_root` for different symbols or colors.
+- **Colors**: Change color codes within the prompt components to suit your preferences.
+
 
 ## Screenshots
 
