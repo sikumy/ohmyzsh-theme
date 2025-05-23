@@ -11,14 +11,15 @@
 - **Command Execution Status**: 
   - A white `❯` symbol indicates successful command execution.
   - A red `❯` symbol shows when the previous command failed.
-  - If the user is `root`, the prompt shows `#` in red.
+  - If the user is `root`, the prompt shows `#` in yellow. Just like with a regular user, the prompt will turn red if the last command failed.
 - **Current Directory**: The prompt shows the current working directory within brackets in red and white.
-- **Two-Line Prompt Option**: Customize the prompt to use a two-line format by editing the theme file, allowing the command input to appear on a new line.
+- **Two-Line Prompt Option**: Customize the prompt to use a two-line format by editing the theme file, allowing the command input to appear on a new line (enabled by default).
 - **Custom Command History Logging**:
     - All executed commands are logged to `~/.pentest_history` in the format `DATE - IP - COMMAND`.
     - Logging occurs regardless of whether the date and IP are displayed in the prompt.
     - Empty commands (e.g., pressing Enter on an empty line) or aborted commands (e.g., pressing `Ctrl+C`) are not logged.
 - **Customizable Interface**: Easily switch between displaying an IP from an interface, a manually set IP address, or the public IP.
+- **Git Branch & Status Display**: When you’re inside a Git repository, the prompt shows the current branch in parentheses.
 
 ## Oh My Zsh Installation
 
@@ -42,13 +43,17 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 git clone https://github.com/sikumy/ohmy-pentest-report/ $ZSH_CUSTOM/themes/ohmy-pentest-report
 mv $ZSH_CUSTOM/themes/ohmy-pentest-report/ohmy-pentest-report.zsh-theme ~/.oh-my-zsh/themes/ohmy-pentest-report.zsh-theme
 ```
-2. **Set the theme** in your ```.zshrc```:
+2. **Set the theme** in your `.zshrc`:
 ```bash
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="ohmy-pentest-report"/' ~/.zshrc
 ```
-3. **Reload your terminal**:
+3. **Add the following line to your `.zshrc`** before `"source $ZSH/oh-my-zsh.sh"` to fix/enable Git branch display in the prompt ([why?](https://github.com/ohmyzsh/ohmyzsh/issues/12328)).
 ```bash
-source ~/.zshrc
+zstyle ':omz:alpha:lib:git' async-prompt force
+```
+4. **Reload your terminal**:
+```bash
+exec $SHELL
 ```
 ## Usage
 
@@ -128,20 +133,16 @@ All executed commands are logged to `~/.pentest_history` in the format `DATE - I
 28/10/23 16:38 - 192.168.1.100 - nmap -sV target.com
 ```
 
-## Customizing the Prompt to Two Lines
+## Default Two-Line Prompt
 
-The theme allows you to switch to a two-line prompt format, where the command input appears on a new line below the prompt information.
+By default, this theme uses a two-line prompt layout to keep the prompt information (date/time, IP, directory, Git status, etc.) separate from your command entry.  
+This is especially helpful when all features are enabled, as the prompt can become quite long. A two-line format improves readability and usability in such cases.
 
-- Enable Two-Line Prompt:
-    - Edit the theme file `ohmy-pentest-report.zsh-theme` and set the `twolines` variable to `true`:
+- **Revert to a Single-Line Prompt**: If you prefer a more compact prompt, you can switch back to a single-line format by editing the theme file `ohmy-pentest-report.zsh-theme` and setting the following:
 ```
-# Control to use a two-line prompt (disabled by default)
-twolines=true  # Set to true to enable two-line prompt
+# Control to use a two-line prompt (enabled by default)
+twolines=false  # Set to false to disable two-line prompt
 ```
-**Note**: There are no commands provided to toggle this setting. You need to edit the theme file manually to change it.
-
-- Disable Two-Line Prompt:
-    - Set the `twolines` variable back to `false`.
 
 ## Additional Customization
 
@@ -159,4 +160,4 @@ You can further customize the prompt by editing the theme file and modifying var
 
 ## Contributions
 
-   Contributions, issues, and feature requests are welcome! Feel free to check out the [issues](https://github.com/sikumy/ohmyzsh-theme/issues) page if you want to contribute.
+   Contributions, issues, and feature requests are welcome! Feel free to check out the [issues](https://github.com/sikumy/ohmy-pentest-report/issues) page if you want to contribute.
