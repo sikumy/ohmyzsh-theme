@@ -107,7 +107,7 @@ The IP address will be removed from the prompt.
    ```bash
    setip public
    ```
-   The public IP will be refreshed automatically every 15 minutes.
+   The public IP will be refreshed automatically every 1 minutes.
 
 ### Enable or Disable All
 
