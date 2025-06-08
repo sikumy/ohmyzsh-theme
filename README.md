@@ -1,25 +1,36 @@
-# Oh My Pentest Report Zsh Theme
+# Oh My Pentest Report - Zsh Theme
 
-`ohmy-pentest-report.zsh-theme` is a customizable Oh My Zsh theme specifically designed for pentesters, offering a clean and efficient prompt to streamline daily tasks during audits and penetration testing. The theme includes real-time display of the date, time, IP address, current directory, and the result of the last executed command. The inclusion of date and time is particularly useful for reporting, allowing pentesters to clearly track when tests were executed, making it easier to document results. Additionally, the theme provides flexibility for manual or automatic IP configuration, custom symbols, custom command history logging, and other features tailored to enhance a pentester's workflow.
+`ohmy-pentest-report.zsh-theme` is a customizable Oh My Zsh theme for pentesters. It provides a clean, efficient prompt with real-time date, time, IP address, current directory, and command status ideal for audits and penetration testing. Features include manual/automatic IP configuration, custom symbols, command history logging, and more to enhance your workflow.
+
+![Prompt Example](./prompt.png)
+
+## Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Custom Command History Logging](#custom-command-history-logging)
+- [Default Two-Line Prompt](#default-two-line-prompt)
+- [Additional Customization](#additional-customization)
+- [Contributions](#contributions)
 
 ## Features
 
-- **Optional Date and Time Display**: Enable or disable the display of the current date and time in cyan for easy readability using `enabledate` and `disabledate` commands.
-- **Dynamic IP Address**: Optionally show the IP from a specific interface (e.g., `tun0`), a manually set IP, or the public IP address.
-  - Set IP manually or automatically using the `setip` function.
-  - Toggle showing the IP with `enableip` and `disableip` commands.
+- **Optional Date and Time Display**: Enable or disable the current date and time in cyan using `enabledate` and `disabledate`.
+- **Dynamic IP Address**: Show the IP from a specific interface (e.g., `tun0`), a manually set IP, or the public IP address.
+  - Set the IP manually or automatically with the `setip` command.
+  - Toggle IP display with `enableip` and `disableip`.
 - **Command Execution Status**: 
-  - A white `❯` symbol indicates successful command execution.
-  - A red `❯` symbol shows when the previous command failed.
-  - If the user is `root`, the prompt shows `#` in yellow. Just like with a regular user, the prompt will turn red if the last command failed.
-- **Current Directory**: The prompt shows the current working directory within brackets in red and white.
-- **Two-Line Prompt Option**: Customize the prompt to use a two-line format by editing the theme file, allowing the command input to appear on a new line (enabled by default).
+  - A white `❯` symbol indicates success.
+  - A red `❯` symbol indicates failure.
+  - For `root`, the prompt shows `#` in yellow (also turns red on failure).
+- **Current Directory**: Shows the working directory in brackets (red and white).
+- **Two-Line Prompt Option**: Use a two-line prompt for better readability (enabled by default).
 - **Custom Command History Logging**:
-    - All executed commands are logged to `~/.pentest_history` in the format `DATE - IP - COMMAND`.
-    - Logging occurs regardless of whether the date and IP are displayed in the prompt.
-    - Empty commands (e.g., pressing Enter on an empty line) or aborted commands (e.g., pressing `Ctrl+C`) are not logged.
-- **Customizable Interface**: Easily switch between displaying an IP from an interface, a manually set IP address, or the public IP.
-- **Git Branch & Status Display**: When you’re inside a Git repository, the prompt shows the current branch in parentheses.
+    - Executed commands are logged to `~/.pentest_history` as `DATE - IP - COMMAND`.
+    - Logging works regardless of prompt display settings.
+    - Only successful commands are logged; empty or aborted commands are ignored.
+- **Flexible IP Source**: Easily switch between interface IP, manual IP, or public IP.
+- **Git Branch & Status Display**: Shows the current Git branch in parentheses when inside a repository.
 
 ## Oh My Zsh Installation
 
@@ -65,13 +76,11 @@ By default, both the IP address and date/time display are disabled. You can enab
 ```bash
 enabledate
 ```
-The prompt will now display the date and time in cyan.
 
 - Disable Date and Time Display:
 ```bash
 disabledate
 ```
-The date and time will be removed from the prompt.
 
 ### Enable or Disable IP Address in the Prompt
 
@@ -79,35 +88,30 @@ The date and time will be removed from the prompt.
 ```bash
 enableip
 ```
-The prompt will now display the IP address.
 
 - Disable IP Display:
 ```bash
 disableip
 ```
-The IP address will be removed from the prompt.
 
-#### Set a Specific IP
+### Set a Specific IP
 
-##### To manually set an IP:
-   ```bash
-   setip 192.168.1.100
-   ```
+-  To manually set an IP:
+```bash
+setip 192.168.1.100
+```
 
-##### Use an Interface to Get the IP
+- Use an Interface to get the IP
 
-   To get the IP address from a specific network interface:
-   ```bash
-   setip eth0
-   ```
+```bash
+setip eth0
+```
 
-##### Get the Public IP (Useful for Web Assessments or External Pentests)
+- Get the Public IP (Useful for Web Assessments or External Pentests)
 
-   You can display the public IP address, which is particularly useful for web assessments or external penetration testing:
-   ```bash
-   setip public
-   ```
-   The public IP will be refreshed automatically every 1 minutes.
+```bash
+setip public # The public IP will be refreshed automatically every 1 minute.
+```
 
 ### Enable or Disable All
 
@@ -122,26 +126,22 @@ disableall
 
 ## Custom Command History Logging
 
-All executed commands are logged to `~/.pentest_history` in the format `DATE - IP - COMMAND`, regardless of whether the date and IP are displayed in the prompt. This feature is particularly useful for reporting and keeping track of activities during a penetration test.
+Executed commands are logged to `~/.pentest_history` in the format `DATE - IP - COMMAND`. This is useful for reporting and tracking activities during a penetration test.
 
-- Logging Details:
-  - The history file is automatically created in your home directory.
-  - Empty commands (e.g., pressing Enter on an empty line) or aborted commands (e.g., pressing `Ctrl+C`) are not logged.
-  - The IP logged is based on your current configuration (manual IP, interface IP, or public IP).
-- Example Entry:
+- The history file is created automatically in your home directory.
+- Empty or aborted commands (e.g., pressing `Ctrl+C`) are ignored.
+- The IP logged matches your current configuration (manual, interface, or public).
+- Example:
 ```
 28/10/23 16:38 - 192.168.1.100 - nmap -sV target.com
 ```
 
 ## Default Two-Line Prompt
 
-By default, this theme uses a two-line prompt layout to keep the prompt information (date/time, IP, directory, Git status, etc.) separate from your command entry.  
-This is especially helpful when all features are enabled, as the prompt can become quite long. A two-line format improves readability and usability in such cases.
-
-- **Revert to a Single-Line Prompt**: If you prefer a more compact prompt, you can switch back to a single-line format by editing the theme file `ohmy-pentest-report.zsh-theme` and setting the following:
+By default, the prompt uses a two-line layout for better readability.  
+To switch to a single-line prompt, edit `ohmy-pentest-report.zsh-theme` and set:
 ```
-# Control to use a two-line prompt (enabled by default)
-twolines=false  # Set to false to disable two-line prompt
+two_lines=false # Control to use a two-line prompt (enabled by default)
 ```
 
 ## Additional Customization
@@ -150,13 +150,8 @@ You can further customize the prompt by editing the theme file and modifying var
 - **Date Format**: Modify the `date` command in the `get_datetime` function to change how the date and time are displayed.
 - **Prompt Symbols**: Customize `cmd_symbol_success`, `cmd_symbol_fail`, and `cmd_symbol_root` for different symbols or colors.
 - **Colors**: Change color codes within the prompt components to suit your preferences.
-
-
-## Screenshots
-
-   Here's an example of how the prompt looks:
-
-   ![Prompt Example](./prompt.png)
+- **Spacing**: Some prompt variables include a trailing space to ensure proper spacing regardless of which elements are enabled.
+- **Prompt Layout**: The prompt is built in the `construct_prompt` function. You can edit this function to change the order or add/remove elements as needed.
 
 ## Contributions
 
