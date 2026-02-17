@@ -26,11 +26,13 @@
 - **Current Directory**: Shows the working directory in brackets (red and white).
 - **Two-Line Prompt Option**: Use a two-line prompt for better readability (enabled by default).
 - **Custom Command History Logging**:
-    - Executed commands are logged to `~/.pentest_history` as `DATE - IP - COMMAND`.
+    - Executed commands are logged to `~/.pentest_history` (configurable via `PENTEST_HISTORY_FILE`) as `DATE - IP - COMMAND`.
     - Logging works regardless of prompt display settings.
     - Only successful commands are logged; empty or aborted commands are ignored.
 - **Flexible IP Source**: Easily switch between interface IP, manual IP, or public IP.
 - **Git Branch & Status Display**: Shows the current Git branch in parentheses when inside a repository.
+- **Cross-Platform Support**: Works on both Linux (`ip` command) and macOS/BSD (`ifconfig` fallback).
+- **Secure History File**: The history file is created with restricted permissions (`600`) to protect sensitive commands.
 
 ## Oh My Zsh Installation
 
@@ -124,11 +126,37 @@ Disable IP and Date/Time in Prompt:
 disableall
 ```
 
+### Enable or Disable Two-Line Prompt
+
+Enable Two-Line Prompt:
+```bash
+enabletwoline
+```
+Disable Two-Line Prompt (single-line):
+```bash
+disabletwoline
+```
+
+### Show Current Configuration
+
+Display the current theme settings at a glance:
+```bash
+showconfig
+```
+
+### Tab Completion
+
+The `setip` command supports tab completion. Press `Tab` after typing `setip` to see available options (`public` and all detected network interfaces).
+
 ## Custom Command History Logging
 
-Executed commands are logged to `~/.pentest_history` in the format `DATE - IP - COMMAND`. This is useful for reporting and tracking activities during a penetration test.
+Executed commands are logged to `~/.pentest_history` (or the path set in `PENTEST_HISTORY_FILE`) in the format `DATE - IP - COMMAND`. This is useful for reporting and tracking activities during a penetration test.
 
-- The history file is created automatically in your home directory.
+- The history file is created automatically with secure permissions (`chmod 600`).
+- You can customize the path by setting `PENTEST_HISTORY_FILE` in your `.zshrc` before the theme is loaded:
+  ```bash
+  export PENTEST_HISTORY_FILE="$HOME/.my_custom_pentest_log"
+  ```
 - Empty or aborted commands (e.g., pressing `Ctrl+C`) are ignored.
 - The IP logged matches your current configuration (manual, interface, or public).
 - Example:
@@ -139,15 +167,16 @@ Executed commands are logged to `~/.pentest_history` in the format `DATE - IP - 
 ## Default Two-Line Prompt
 
 By default, the prompt uses a two-line layout for better readability.  
-To switch to a single-line prompt, edit `ohmy-pentest-report.zsh-theme` and set:
-```
-two_lines=false # Control to use a two-line prompt (enabled by default)
+You can toggle this dynamically:
+```bash
+disabletwoline  # Switch to single-line prompt
+enabletwoline   # Switch back to two-line prompt
 ```
 
 ## Additional Customization
 
 You can further customize the prompt by editing the theme file and modifying variables such as the date format, symbol styles, and colors.
-- **Date Format**: Modify the `date` command in the `get_datetime` function to change how the date and time are displayed.
+- **Date Format**: Modify the `%D{}` format string in the `get_datetime` function to change how the date and time are displayed (uses zsh native prompt expansion).
 - **Prompt Symbols**: Customize `cmd_symbol_success`, `cmd_symbol_fail`, and `cmd_symbol_root` for different symbols or colors.
 - **Colors**: Change color codes within the prompt components to suit your preferences.
 - **Spacing**: Some prompt variables include a trailing space to ensure proper spacing regardless of which elements are enabled.
